@@ -16,42 +16,9 @@ f = misc.face()
 misc.imsave('face.png',f) # uses the Image module (PIL)
 
 import matplotlib.pyplot as plt
-plt.imshow(f)
-plt.show()
-
-face = misc.imread('face.png')
-type(face)
-face.shape,face.dtype
-face.tofile('face.raw')
-face_from_raw = np.fromfile('face.raw', dtype=np.uint8)
-face_from_raw.shape
-face_from_raw.shape = (768, 1024, 3)
-
-for i in range(10):
-
-    im = np.random.randint(0, 256, 10000).reshape((100, 100))
-
-    misc.imsave('random_%02d.png' % i, im)
-    
-from glob import glob
-filelist = glob('random*.png')   
-filelist.sort()
 
 
-
-train_X = os.path.join(path, 'train-images.idx3-ubyte')
-train_Y = os.path.join(path, 'train-labels.idx1-ubyte')
-from urllib import request
-import gzip
-import pickle
-
-filename = [
-["training_images","train-images-idx3-ubyte.gz"],
-["test_images","t10k-images-idx3-ubyte.gz"],
-["training_labels","train-labels-idx1-ubyte.gz"],
-["test_labels","t10k-labels-idx1-ubyte.gz"]
-]
-
+#Had issue converting it to Matrix form for training data
 def download_mnist():
     base_url = "http://yann.lecun.com/exdb/mnist/"
     for name in filename:
@@ -83,8 +50,9 @@ def load():
 if __name__ == '__main__':
     init()   
     
-train_x,train_y,test_x,test_y=load()    
-f.shape,f.dtype
+
+
+#LeNEt Architechture
 def zero_pad(X, pad):
     
     X_pad = np.pad(X, ((0, 0), (pad, pad), (pad, pad), (0, 0)), 'constant', constant_values=0)
@@ -380,7 +348,7 @@ W4=initialize_parameters(784,200,10)['W2']
 b4=initialize_parameters(784,200,10)['b2']
 A1,cache1=linear_activation_forward(final_conv, W3, b3,"relu")
 A2,cache2=linear_activation_forward(A1, W4, b4,"sigmoid")
- cost=compute_cost(A2,train_Y)
+cost=compute_cost(A2,train_Y)
 while cost>= threshold :
     gradient=L_model_backward(A2, train_Y, ['cache1','cache2'])
     para=update_parameters(parameters, gradient,0.01)
@@ -395,10 +363,6 @@ while cost>= threshold :
     
     
 
-
-
-A1,cache1=linear_activation_forward(train_x, W3, b3,"relu")
-A2,cache2=linear_activation_forward(A1, W4, b4,"sigmoid")
 
 
 
